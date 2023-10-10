@@ -1,0 +1,48 @@
+<!-- templates/Finapp/dashboard.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Your Dashboard</h1>
+    <div class="dashboard-links">
+        <a href="{% url 'Finapp:import_asset' %}" class="btn btn-primary">Import Asset</a>
+        <a href="{% url 'Finapp:import_liability' %}" class="btn btn-primary">Import Liability</a>
+        <a href="{% url 'Finapp:import_cash_flow' %}" class="btn btn-primary">Import Cash Flow</a>
+    </div>
+
+    <div class="financial-summary">
+        <h2>Your Financial Summary</h2>
+
+        <h3>Assets</h3>
+        {% for asset in assets %}
+            <div class="financial-data">
+                <p>{{ asset.name }}: {{ asset.amount }}</p>
+            </div>
+        {% empty %}
+            <p>No assets available.</p>
+        {% endfor %}
+
+        <h3>Liabilities</h3>
+        {% for liability in liabilities %}
+            <div class="financial-data">
+                <p>{{ liability.name }}: {{ liability.amount }}</p>
+            </div>
+        {% empty %}
+            <p>No liabilities available.</p>
+        {% endfor %}
+
+        <h3>Cash Flows</h3>
+        {% for cash_flow in cash_flows %}
+            <div class="financial-data">
+                <p>Date: {{ cash_flow.date }} - Amount: {{ cash_flow.amount }}</p>
+            </div>
+        {% empty %}
+            <p>No cash flow data available.</p>
+        {% endfor %}
+    </div>
+
+    <div class="net-worth-section">
+        <h2>Your Net Worth</h2>
+        <p>{{ net_worth }}</p>
+    </div>
+{% endblock %}

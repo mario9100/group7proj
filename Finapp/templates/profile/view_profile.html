@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}
+User Profile
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="mt-5">Welcome to Your Profile</h1>
+        <div class="card mt-4">
+            <div class="card-body">
+                <p class="card-text">Hello, {{ user.username }}!</p>
+                <p class="card-text">Email: {{ user.email }}</p>
+                <!-- Include additional user information as needed -->
+                    <div class="container">
+        <a href="{% url 'Finapp:edit_profile' %}" class="btn btn-secondary mt-4">Edit Profile</a>
+    </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
