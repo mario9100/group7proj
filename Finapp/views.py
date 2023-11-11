@@ -60,7 +60,7 @@ def registration_view(request):
         if form.is_valid():
             form.save()
             # Redirect to a success page or login page
-            return redirect('login')  # Assuming you have a 'login' URL pattern
+            return redirect('Finapp:login')  # Assuming you have a 'login' URL pattern
     else:
         form = RegistrationForm()
 
@@ -99,7 +99,6 @@ def edit_profile(request):
 def dashboard(request):
     assets = Asset.objects.filter(user=request.user)
     liabilities = Liability.objects.filter(user=request.user)
-    cash_flows = CashFlow.objects.filter(user=request.user)
     user_profile = UserProfile.objects.get(user=request.user)  # Get the user profile
     incomes = Income.objects.filter(user=request.user)
     expenses = Expense.objects.filter(user=request.user)
@@ -114,7 +113,6 @@ def dashboard(request):
     context = {
         'assets': assets,
         'liabilities': liabilities,
-        'cash_flows': cash_flows,  # This may need to be adjusted based on what you store in CashFlow
         'net_worth': net_worth,
         'net_cash_flows': net_cash_flows,  # Added this line
         'risk_profile': user_profile.risk_profile if user_profile else None,
@@ -215,10 +213,6 @@ def delete_income(request, income_id):
 @login_required
 def delete_expense(request, expense_id):
     return delete_object(request, expense_id, Expense, 'Finapp:dashboard')
-
-@login_required
-def delete_cash_flow(request, cash_flow_id):
-    return delete_object(request, cash_flow_id, Cash_flow, 'Finapp:dashboard')
 
 def fetch_financial_news():
     url = "https://newsapi.org/v2/everything"

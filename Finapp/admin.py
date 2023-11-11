@@ -1,13 +1,6 @@
 from django.contrib import admin
-from .models import CashFlow, Asset, Liability
+from .models import Asset, Liability
 from .models import UserProfile
-
-
-@admin.register(CashFlow)
-class CashFlowAdmin(admin.ModelAdmin):
-    list_display = ('date', 'amount')
-    list_filter = ('date',)
-    search_fields = ('date', 'amount')
 
 
 @admin.register(Asset)
