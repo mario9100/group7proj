@@ -87,7 +87,7 @@ class QuestionnaireForm(forms.Form):
 class IncomeForm(forms.ModelForm):
     class Meta:
         model = Income
-        fields = ['name', 'gross_income', 'net_income']  # Adjust the fields as per your Income model
+        fields = ['name', 'net_income']  # Adjust the fields as per your Income model
 
 
 class ExpenseForm(forms.ModelForm):

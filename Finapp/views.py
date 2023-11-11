@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import CashFlowForm, AssetForm, LiabilityForm
+from .forms import AssetForm, LiabilityForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from .forms import RegistrationForm
@@ -15,6 +15,7 @@ from .models import Income, Expense
 from django.views.decorators.http import require_POST
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
+from django.db.models import Sum
 
 def success(request):
     return render(request, 'Finapp/success.html')
@@ -51,24 +52,6 @@ def import_liability(request):
 
     return render(request, 'Finapp/import_liability.html', {'form': form})
 
-@login_required
-def import_cash_flow(request):
-    if request.method == 'POST':
-        form = CashFlowForm(request.POST)
-        if form.is_valid():
-            cash_flow = form.save(commit=False)
-            cash_flow.user = request.user  # Set the user field
-            cash_flow.save()  # Now save the cash_flow
-            messages.success(request, 'Cash Flow imported successfully!')
-            return redirect('Finapp:dashboard')
-
-    else:
-        form = CashFlowForm()
-
-    return render(request, 'Finapp/import_cash_flow.html', {'form': form})
-
-
-# ... rest of your views ...
 def registration_view(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
@@ -116,18 +99,23 @@ def dashboard(request):
     liabilities = Liability.objects.filter(user=request.user)
     cash_flows = CashFlow.objects.filter(user=request.user)
     user_profile = UserProfile.objects.get(user=request.user)  # Get the user profile
-    total_assets = assets.aggregate(total=models.Sum('amount'))['total'] or 0
-    total_liabilities = liabilities.aggregate(total=models.Sum('amount'))['total'] or 0
-    net_worth = total_assets - total_liabilities
     incomes = Income.objects.filter(user=request.user)
     expenses = Expense.objects.filter(user=request.user)
+
+    total_assets = assets.aggregate(total=Sum('amount'))['total'] or 0
+    total_liabilities = liabilities.aggregate(total=Sum('amount'))['total'] or 0
+    total_incomes = incomes.aggregate(total=Sum('net_income'))['total'] or 0
+    total_expenses = expenses.aggregate(total=Sum('amount'))['total'] or 0
+    net_cash_flows = total_incomes - total_expenses
+    net_worth = total_assets - total_liabilities
 
     context = {
         'assets': assets,
         'liabilities': liabilities,
-        'cash_flows': cash_flows,
+        'cash_flows': cash_flows,  # This may need to be adjusted based on what you store in CashFlow
         'net_worth': net_worth,
-        'risk_profile': user_profile.risk_profile,
+        'net_cash_flows': net_cash_flows,  # Added this line
+        'risk_profile': user_profile.risk_profile if user_profile else None,
         'incomes': incomes,
         'expenses': expenses,
     }

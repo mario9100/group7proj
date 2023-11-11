@@ -7,7 +7,6 @@
     <div class="dashboard-links">
         <a href="{% url 'Finapp:import_asset' %}" class="btn btn-primary">Import Asset</a>
         <a href="{% url 'Finapp:import_liability' %}" class="btn btn-primary">Import Liability</a>
-        <a href="{% url 'Finapp:import_cash_flow' %}" class="btn btn-primary">Import Cash Flow</a>
         <a href="{% url 'Finapp:import_income' %}" class="btn btn-secondary">Import Income</a>
         <a href="{% url 'Finapp:import_expense' %}" class="btn btn-secondary">Import Expenses</a>
     </div>
@@ -15,6 +14,7 @@
     <div class="financial-summary">
         <h2>Your Financial Summary</h2>
 
+        <!-- Assets Section -->
         <h3>Assets</h3>
         {% for asset in assets %}
             <div class="financial-data">
@@ -25,6 +25,7 @@
             <p>No assets available.</p>
         {% endfor %}
 
+        <!-- Liabilities Section -->
         <h3>Liabilities</h3>
         {% for liability in liabilities %}
             <div class="financial-data">
@@ -35,42 +36,39 @@
             <p>No liabilities available.</p>
         {% endfor %}
 
-        <!-- Incomes -->
-        <h3>Income</h3>
+        <!-- Incomes Section -->
+        <h3>Monthly Net Income</h3>
         {% for income in incomes %}
             <div class="financial-data">
-                <p>{{ income.name}}: ${{ income.gross_income}} Gross ${{ income.net_income }} Net</p>
-            {% include 'delete_button.html' with delete_url='Finapp:delete_income' object=income %}
+                <p>{{ income.name }}: ${{ income.net_income }}</p>
+                {% include 'delete_button.html' with delete_url='Finapp:delete_income' object=income %}
             </div>
         {% empty %}
             <p>No income data available.</p>
         {% endfor %}
 
-        <!-- Expenses -->
+        <!-- Expenses Section -->
         <h3>Monthly Expenses</h3>
         {% for expense in expenses %}
             <div class="financial-data">
-                <p>{{ expense.name }}: ${{ expense.amount }}: {{ expense.expense_type }}</p>
+                <p>{{ expense.name }}: ${{ expense.amount }}</p>
                 {% include 'delete_button.html' with delete_url='Finapp:delete_expense' object=expense %}
             </div>
         {% empty %}
             <p>No expense data available.</p>
         {% endfor %}
 
-        <h3>Additional Cash Flows</h3>
-        {% for cash_flow in cash_flows %}
-            <div class="financial-data">
-                <p>Date: {{ cash_flow.date }} - Amount: {{ cash_flow.amount }}</p>
-                {% include 'delete_button.html' with delete_url='Finapp:delete_cash_flow' object=cash_flow %}
-            </div>
-        {% empty %}
-            <p>No cash flow data available.</p>
-        {% endfor %}
+        <!-- Net Cash Flows Section -->
+        <h2>Your Monthly Net Cash Flows</h2>
+        <div class="financial-data">
+            <p> ${{ net_cash_flows }}</p>
+        </div>
+
     </div>
 
     <div class="net-worth-section">
         <h2>Your Net Worth</h2>
-        <p>{{ net_worth }}</p>
+        <p>${{ net_worth }}</p>
     </div>
 
     <div class="risk-profile-section">
