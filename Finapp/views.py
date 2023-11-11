@@ -1,26 +1,13 @@
-from django.shortcuts import render, redirect
-from .forms import AssetForm, LiabilityForm
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login
-from .forms import RegistrationForm
-from .models import UserProfile
-from .forms import UserProfileForm
+from .forms import AssetForm, LiabilityForm, RegistrationForm, UserProfileForm, QuestionnaireForm, IncomeForm, ExpenseForm
+from .models import UserProfile, Asset, Liability, RiskProfile, Income, Expense
 from django.contrib.auth.decorators import login_required
-from .models import Asset, Liability, CashFlow
 from django.contrib import messages
-from django.db import models
-from .forms import QuestionnaireForm, IncomeForm, ExpenseForm
-from .models import RiskProfile
-from .models import Income, Expense
-from django.views.decorators.http import require_POST
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse_lazy
 from django.db.models import Sum
-from django.conf import settings
 import requests
 
 def success(request):
-    return render(request, 'Finapp/success.html')
+    return render(request, 'success.html')
 
 @login_required
 def import_asset(request):
@@ -36,7 +23,7 @@ def import_asset(request):
     else:
         form = AssetForm()
 
-    return render(request, 'Finapp/import_asset.html', {'form': form})
+    return render(request, 'import_asset.html', {'form': form})
 
 @login_required
 def import_liability(request):
@@ -52,7 +39,7 @@ def import_liability(request):
     else:
         form = LiabilityForm()
 
-    return render(request, 'Finapp/import_liability.html', {'form': form})
+    return render(request, 'import_liability.html', {'form': form})
 
 def registration_view(request):
     if request.method == 'POST':
@@ -64,7 +51,7 @@ def registration_view(request):
     else:
         form = RegistrationForm()
 
-    return render(request, 'registration/register.html', {'form': form})
+    return render(request, 'register.html', {'form': form})
 
 @login_required
 def view_profile(request):
@@ -74,7 +61,7 @@ def view_profile(request):
     except UserProfile.DoesNotExist:
         user_profile = None
 
-    return render(request, 'profile/view_profile.html', {'user_profile': user_profile})
+    return render(request, 'view_profile.html', {'user_profile': user_profile})
 
 
 @login_required
@@ -90,7 +77,7 @@ def edit_profile(request):
     else:
         form = UserProfileForm(instance=user_profile)
 
-    return render(request, 'profile/edit_profile.html', {'form': form})
+    return render(request, 'edit_profile.html', {'form': form})
 
 # views.py
 
@@ -119,7 +106,7 @@ def dashboard(request):
         'incomes': incomes,
         'expenses': expenses,
     }
-    return render(request, 'Finapp/dashboard.html', context)
+    return render(request, 'dashboard.html', context)
 
 
 @login_required
@@ -171,7 +158,7 @@ def import_income(request):
             return redirect('Finapp:dashboard')
     else:
         form = IncomeForm()
-    return render(request, 'Finapp/import_income.html', {'form': form})
+    return render(request, 'import_income.html', {'form': form})
 
 @login_required
 def import_expense(request):
@@ -189,7 +176,7 @@ def import_expense(request):
     else:
         form = ExpenseForm()
 
-    return render(request, 'Finapp/import_expense.html', {'form': form})
+    return render(request, 'import_expense.html', {'form': form})
 
 @login_required
 def delete_object(request, object_id, model, redirect_url):
@@ -234,6 +221,6 @@ def fetch_financial_news():
 def financial_news_view(request):
     financial_news = fetch_financial_news()
     if financial_news:
-        return render(request, 'Finapp/financial_news.html', {'financial_news': financial_news})
+        return render(request, 'financial_news.html', {'financial_news': financial_news})
     else:
-        return render(request, 'Finapp/financial_news.html', {'error': 'Unable to fetch financial news'})
+        return render(request, 'financial_news.html', {'error': 'Unable to fetch financial news'})
