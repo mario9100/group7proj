@@ -2,7 +2,7 @@ from django.urls import path, include
 from . import views  # Import views from your app
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import views as auth_views
-from .views import questionnaire_view
+from .views import questionnaire_view, delete_asset, delete_liability, delete_income, delete_expense, delete_cash_flow
 
 app_name = 'Finapp'
 
@@ -22,5 +22,10 @@ urlpatterns = [
     path('questionnaire/', questionnaire_view, name='questionnaire'),
     path('import_income/', views.import_income, name='import_income'),
     path('import_expense/', views.import_expense, name='import_expense'),
+    path('delete_asset/<int:asset_id>/', delete_asset, name='delete_asset'),
+    path('delete_liability/<int:liability_id>/', delete_liability, name='delete_liability'),
+    path('delete_income/<int:income_id>/', delete_income, name='delete_income'),
+    path('delete_expense/<int:expense_id>/', delete_expense, name='delete_expense'),
+    path('delete_cash_flow<int:cash_flow_id>/', delete_cash_flow, name='delete_cash_flow'),
     # Add more URL patterns as needed.
 ]

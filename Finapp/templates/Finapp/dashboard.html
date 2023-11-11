@@ -19,6 +19,7 @@
         {% for asset in assets %}
             <div class="financial-data">
                 <p>{{ asset.name }}: {{ asset.amount }}</p>
+                {% include 'delete_button.html' with delete_url='Finapp:delete_asset' object=asset %}
             </div>
         {% empty %}
             <p>No assets available.</p>
@@ -28,16 +29,18 @@
         {% for liability in liabilities %}
             <div class="financial-data">
                 <p>{{ liability.name }}: {{ liability.amount }}</p>
+                {% include 'delete_button.html' with delete_url='Finapp:delete_liability' object=liability %}
             </div>
         {% empty %}
             <p>No liabilities available.</p>
         {% endfor %}
 
         <!-- Incomes -->
-        <h3>Incomes</h3>
+        <h3>Income</h3>
         {% for income in incomes %}
             <div class="financial-data">
                 <p>{{ income.name}}: ${{ income.gross_income}} Gross ${{ income.net_income }} Net</p>
+            {% include 'delete_button.html' with delete_url='Finapp:delete_income' object=income %}
             </div>
         {% empty %}
             <p>No income data available.</p>
@@ -48,6 +51,7 @@
         {% for expense in expenses %}
             <div class="financial-data">
                 <p>{{ expense.name }}: ${{ expense.amount }}: {{ expense.expense_type }}</p>
+                {% include 'delete_button.html' with delete_url='Finapp:delete_expense' object=expense %}
             </div>
         {% empty %}
             <p>No expense data available.</p>
@@ -57,6 +61,7 @@
         {% for cash_flow in cash_flows %}
             <div class="financial-data">
                 <p>Date: {{ cash_flow.date }} - Amount: {{ cash_flow.amount }}</p>
+                {% include 'delete_button.html' with delete_url='Finapp:delete_cash_flow' object=cash_flow %}
             </div>
         {% empty %}
             <p>No cash flow data available.</p>

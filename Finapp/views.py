@@ -12,6 +12,10 @@ from django.db import models
 from .forms import QuestionnaireForm, IncomeForm, ExpenseForm
 from .models import RiskProfile
 from .models import Income, Expense
+from django.views.decorators.http import require_POST
+from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse_lazy
+
 def success(request):
     return render(request, 'Finapp/success.html')
 
@@ -199,3 +203,29 @@ def import_expense(request):
 
     return render(request, 'Finapp/import_expense.html', {'form': form})
 
+@login_required
+def delete_object(request, object_id, model, redirect_url):
+    obj = get_object_or_404(model, id=object_id, user=request.user)
+    obj.delete()
+    return redirect(redirect_url)
+
+# Now, your specific delete views can call this generic function:
+@login_required
+def delete_asset(request, asset_id):
+    return delete_object(request, asset_id, Asset, 'Finapp:dashboard')
+
+@login_required
+def delete_liability(request, liability_id):
+    return delete_object(request, liability_id, Liability, 'Finapp:dashboard')
+
+@login_required
+def delete_income(request, income_id):
+    return delete_object(request, income_id, Income, 'Finapp:dashboard')
+
+@login_required
+def delete_expense(request, expense_id):
+    return delete_object(request, expense_id, Expense, 'Finapp:dashboard')
+
+@login_required
+def delete_cash_flow(request, cash_flow_id):
+    return delete_object(request, cash_flow_id, Cash_flow, 'Finapp:dashboard')
