@@ -71,7 +71,10 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Group_Project.wsgi.application'
-LOGIN_REDIRECT_URL = 'Finapp:view_profile'
+LOGIN_URL = 'Finapp:login'
+LOGOUT_URL = 'Finapp:logout'
+LOGIN_REDIRECT_URL = 'Finapp:dashboard'
+LOGOUT_REDIRECT_URL = 'Finapp:login'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases

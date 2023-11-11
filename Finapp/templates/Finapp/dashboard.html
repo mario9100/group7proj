@@ -17,9 +17,9 @@
         <!-- Assets Section -->
         <h3>Assets</h3>
         {% for asset in assets %}
-            <div class="financial-data">
+            <div class="financial-data" style="display: flex; justify-content: space-between; align-items: center;">
                 <p>{{ asset.name }}: {{ asset.amount }}</p>
-                {% include 'delete_button.html' with delete_url='Finapp:delete_asset' object=asset %}
+                <a href="{% url 'Finapp:delete_asset' asset.id %}" class="btn btn-danger btn-sm" style="margin-left: 10px;">Delete</a>
             </div>
         {% empty %}
             <p>No assets available.</p>
@@ -28,9 +28,9 @@
         <!-- Liabilities Section -->
         <h3>Liabilities</h3>
         {% for liability in liabilities %}
-            <div class="financial-data">
+            <div class="financial-data" style="display: flex; justify-content: space-between; align-items: center;">
                 <p>{{ liability.name }}: {{ liability.amount }}</p>
-                {% include 'delete_button.html' with delete_url='Finapp:delete_liability' object=liability %}
+                <a href="{% url 'Finapp:delete_liability' liability.id %}" class="btn btn-danger btn-sm" style="margin-left: 10px;">Delete</a>
             </div>
         {% empty %}
             <p>No liabilities available.</p>
@@ -39,9 +39,9 @@
         <!-- Incomes Section -->
         <h3>Monthly Net Income</h3>
         {% for income in incomes %}
-            <div class="financial-data">
+            <div class="financial-data" style="display: flex; justify-content: space-between; align-items: center;">
                 <p>{{ income.name }}: ${{ income.net_income }}</p>
-                {% include 'delete_button.html' with delete_url='Finapp:delete_income' object=income %}
+                <a href="{% url 'Finapp:delete_income' income.id %}" class="btn btn-danger btn-sm" style="margin-left: 10px;">Delete</a>
             </div>
         {% empty %}
             <p>No income data available.</p>
@@ -50,9 +50,9 @@
         <!-- Expenses Section -->
         <h3>Monthly Expenses</h3>
         {% for expense in expenses %}
-            <div class="financial-data">
+            <div class="financial-data" style="display: flex; justify-content: space-between; align-items: center;">
                 <p>{{ expense.name }}: ${{ expense.amount }}</p>
-                {% include 'delete_button.html' with delete_url='Finapp:delete_expense' object=expense %}
+                <a href="{% url 'Finapp:delete_expense' expense.id %}" class="btn btn-danger btn-sm" style="margin-left: 10px;">Delete</a>
             </div>
         {% empty %}
             <p>No expense data available.</p>
@@ -61,9 +61,8 @@
         <!-- Net Cash Flows Section -->
         <h2>Your Monthly Net Cash Flows</h2>
         <div class="financial-data">
-            <p> ${{ net_cash_flows }}</p>
+            <p>${{ net_cash_flows }}</p>
         </div>
-
     </div>
 
     <div class="net-worth-section">

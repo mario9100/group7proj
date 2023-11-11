@@ -13,6 +13,7 @@ urlpatterns = [
     path('success/', views.success, name='success'),
     path('register/', views.registration_view, name='register'),
     path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('edit_profile/', views.edit_profile, name='edit_profile'),
     path('profile/', views.view_profile, name='view_profile'),
     path('profile/edit/', views.edit_profile, name='edit_profile_alt'),  # Updated name

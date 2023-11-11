@@ -2,18 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}My Website{% endblock %}</title>
+    <title>{% block title %}Finapp{% endblock %}</title>
     <!-- Include Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">My Website</a>
+        <a class="navbar-brand" href="{% url 'Finapp:dashboard' %}">Finapp</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
+                {% if user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'Finapp:view_profile' %}">Profile</a>
                 </li>
@@ -21,15 +22,19 @@
                     <a class="nav-link" href="{% url 'Finapp:edit_profile' %}">Edit Profile</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'Finapp:login' %}">Login</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="{% url 'Finapp:dashboard' %}">Dashboard</a>
                 </li>
-                <!-- New navigation item for Risk Questionnaire -->
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'Finapp:questionnaire' %}">Risk Questionnaire</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'Finapp:logout' %}">Logout</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'Finapp:login' %}">Login</a>
+                </li>
+                {% endif %}
                 <!-- ... other navigation items ... -->
             </ul>
         </div>

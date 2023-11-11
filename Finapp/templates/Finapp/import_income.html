@@ -4,9 +4,8 @@
 <h2>Import Income</h2>
 <form method="post">
     {% csrf_token %}
-    {{ form.name.label_tag }} {{ form.name }}  <!-- Render the name field -->
+    {{ form.name.label_tag }} {{ form.name }}
     {{ form.net_income.label_tag }} {{ form.net_income }}
-    <!-- ... other fields ... -->
     <button type="submit">Save</button>
 </form>
 {% endblock %}
