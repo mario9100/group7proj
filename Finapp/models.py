@@ -35,6 +35,7 @@ class UserProfile(models.Model):
     full_name = models.CharField(max_length=255)
     bio = models.TextField(blank=True)
     profile_picture = models.ImageField(upload_to='profile_pics/', blank=True)
+    risk_profile = models.CharField(max_length=50, blank=True, null=True)
 
     def __str__(self):
         return self.user.username
@@ -45,3 +46,20 @@ def create_or_update_user_profile(sender, instance, created, **kwargs):
         UserProfile.objects.create(user=instance)
     else:
         instance.userprofile.save()
+
+
+class RiskProfile(models.Model):
+    profile_name = models.CharField(max_length=100)
+    description = models.TextField()
+
+    def __str__(self):
+        return self.profile_name
+
+class Questionnaire(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    investment_experience = models.IntegerField()  # For example, number of years
+    risk_tolerance = models.CharField(max_length=10)  # For example: low, medium, high
+    risk_profile = models.ForeignKey(RiskProfile, on_delete=models.SET_NULL, null=True, blank=True)
+
+    def __str__(self):
+        return f"Questionnaire for {self.user.username}"

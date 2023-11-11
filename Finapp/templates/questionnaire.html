@@ -1,0 +1,34 @@
+<!-- templates/questionnaire.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Risk Profile Questionnaire</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div>
+            <label for="id_experience">{{ form.experience.label }}</label>
+            {{ form.experience }}
+        </div>
+        <div>
+            <p>{{ form.question_1.label }}</p>
+            {% for choice in form.question_1 %}
+                <label>{{ choice.tag }} {{ choice.choice_label }}</label><br>
+            {% endfor %}
+        </div>
+        <div>
+            <p>{{ form.question_2.label }}</p>
+            {% for choice in form.question_2 %}
+                <label>{{ choice.tag }} {{ choice.choice_label }}</label><br>
+            {% endfor %}
+        </div>
+        <div>
+            <p>{{ form.question_3.label }}</p>
+            {% for choice in form.question_3 %}
+                <label>{{ choice.tag }} {{ choice.choice_label }}</label><br>
+            {% endfor %}
+        </div>
+        <!-- Repeat for other questions -->
+        <button type="submit">Submit</button>
+    </form>
+{% endblock %}

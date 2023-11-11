@@ -2,6 +2,7 @@ from django.urls import path, include
 from . import views  # Import views from your app
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import views as auth_views
+from .views import questionnaire_view
 
 app_name = 'Finapp'
 
@@ -18,5 +19,6 @@ urlpatterns = [
     path('profile/edit/', views.edit_profile, name='edit_profile_alt'),  # Updated name
     path('accounts/', include('django.contrib.auth.urls')),
     path('dashboard/', views.dashboard, name='dashboard'),
+    path('questionnaire/', questionnaire_view, name='questionnaire'),
     # Add more URL patterns as needed.
 ]

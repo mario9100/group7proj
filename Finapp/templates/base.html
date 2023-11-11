@@ -20,12 +20,15 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'Finapp:edit_profile' %}">Edit Profile</a>
                 </li>
-                <!-- Add this new list item below -->
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'Finapp:login' %}">Login</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'Finapp:dashboard' %}">Dashboard</a>
+                </li>
+                <!-- New navigation item for Risk Questionnaire -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'Finapp:questionnaire' %}">Risk Questionnaire</a>
                 </li>
                 <!-- ... other navigation items ... -->
             </ul>
