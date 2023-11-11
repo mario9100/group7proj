@@ -9,8 +9,9 @@ from django.contrib.auth.decorators import login_required
 from .models import Asset, Liability, CashFlow
 from django.contrib import messages
 from django.db import models
-from .forms import QuestionnaireForm
+from .forms import QuestionnaireForm, IncomeForm, ExpenseForm
 from .models import RiskProfile
+from .models import Income, Expense
 def success(request):
     return render(request, 'Finapp/success.html')
 
@@ -111,17 +112,20 @@ def dashboard(request):
     liabilities = Liability.objects.filter(user=request.user)
     cash_flows = CashFlow.objects.filter(user=request.user)
     user_profile = UserProfile.objects.get(user=request.user)  # Get the user profile
-
     total_assets = assets.aggregate(total=models.Sum('amount'))['total'] or 0
     total_liabilities = liabilities.aggregate(total=models.Sum('amount'))['total'] or 0
     net_worth = total_assets - total_liabilities
+    incomes = Income.objects.filter(user=request.user)
+    expenses = Expense.objects.filter(user=request.user)
 
     context = {
         'assets': assets,
         'liabilities': liabilities,
         'cash_flows': cash_flows,
         'net_worth': net_worth,
-        'risk_profile': user_profile.risk_profile,  # Add the risk profile to the context
+        'risk_profile': user_profile.risk_profile,
+        'incomes': incomes,
+        'expenses': expenses,
     }
     return render(request, 'Finapp/dashboard.html', context)
 
@@ -161,3 +165,37 @@ def determine_risk_profile(data):
         return RiskProfile.objects.get(profile_name='Conservative')
     else:
         return RiskProfile.objects.get(profile_name='Moderate')
+
+# views.py
+
+@login_required
+def import_income(request):
+    if request.method == 'POST':
+        form = IncomeForm(request.POST)
+        if form.is_valid():
+            income = form.save(commit=False)
+            income.user = request.user
+            income.save()
+            return redirect('Finapp:dashboard')
+    else:
+        form = IncomeForm()
+    return render(request, 'Finapp/import_income.html', {'form': form})
+
+@login_required
+def import_expense(request):
+    if request.method == 'POST':
+        form = ExpenseForm(request.POST)
+        if form.is_valid():
+            # Save the expense with the user and type
+            expense = form.save(commit=False)
+            expense.user = request.user
+            expense.expense_type = form.cleaned_data['expense_type']
+            expense.save()
+            # Redirect to a new URL:
+            return redirect('Finapp:dashboard')  # Update with your actual redirect destination
+
+    else:
+        form = ExpenseForm()
+
+    return render(request, 'Finapp/import_expense.html', {'form': form})
+

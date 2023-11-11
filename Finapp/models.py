@@ -63,3 +63,24 @@ class Questionnaire(models.Model):
 
     def __str__(self):
         return f"Questionnaire for {self.user.username}"
+
+# models.py
+
+class Income(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100, default='Misc Income')
+    gross_income = models.DecimalField(max_digits=10, decimal_places=2)
+    net_income = models.DecimalField(max_digits=10, decimal_places=2)
+    date_added = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - Gross: {self.gross_income}, Net: {self.net_income}"
+
+class Expense(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100, default='Misc Expense')
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    date_added = models.DateField(auto_now_add=True)
+    expense_type = models.CharField(max_length=50)
+    def __str__(self):
+        return f"{self.user.username} - Living: {self.living_expenses}, Discretionary: {self.discretionary_expenses}"

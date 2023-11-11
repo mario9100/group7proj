@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import UserProfile
 from .models import Questionnaire
-
+from .models import Income, Expense
 
 class CashFlowForm(forms.ModelForm):
     class Meta:
@@ -83,3 +83,23 @@ class QuestionnaireForm(forms.Form):
 
         # You can then use this to save the profile to the user or simply pass it to the context
         self.cleaned_data['risk_profile'] = risk_profile
+
+class IncomeForm(forms.ModelForm):
+    class Meta:
+        model = Income
+        fields = ['name', 'gross_income', 'net_income']  # Adjust the fields as per your Income model
+
+
+class ExpenseForm(forms.ModelForm):
+    # Define the choices for expense type
+    EXPENSE_TYPE_CHOICES = [
+        ('Living', 'Living Expense'),
+        ('Discretionary', 'Discretionary Expense'),
+    ]
+
+    # Add an extra field for the expense type with the choices
+    expense_type = forms.ChoiceField(choices=EXPENSE_TYPE_CHOICES, label="Type of Expense")
+
+    class Meta:
+        model = Expense
+        fields = ['name', 'amount', 'expense_type']  # Include other fields if needed

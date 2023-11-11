@@ -8,6 +8,8 @@
         <a href="{% url 'Finapp:import_asset' %}" class="btn btn-primary">Import Asset</a>
         <a href="{% url 'Finapp:import_liability' %}" class="btn btn-primary">Import Liability</a>
         <a href="{% url 'Finapp:import_cash_flow' %}" class="btn btn-primary">Import Cash Flow</a>
+        <a href="{% url 'Finapp:import_income' %}" class="btn btn-secondary">Import Income</a>
+        <a href="{% url 'Finapp:import_expense' %}" class="btn btn-secondary">Import Expenses</a>
     </div>
 
     <div class="financial-summary">
@@ -31,7 +33,27 @@
             <p>No liabilities available.</p>
         {% endfor %}
 
-        <h3>Cash Flows</h3>
+        <!-- Incomes -->
+        <h3>Incomes</h3>
+        {% for income in incomes %}
+            <div class="financial-data">
+                <p>{{ income.name}}: ${{ income.gross_income}} Gross ${{ income.net_income }} Net</p>
+            </div>
+        {% empty %}
+            <p>No income data available.</p>
+        {% endfor %}
+
+        <!-- Expenses -->
+        <h3>Monthly Expenses</h3>
+        {% for expense in expenses %}
+            <div class="financial-data">
+                <p>{{ expense.name }}: ${{ expense.amount }}: {{ expense.expense_type }}</p>
+            </div>
+        {% empty %}
+            <p>No expense data available.</p>
+        {% endfor %}
+
+        <h3>Additional Cash Flows</h3>
         {% for cash_flow in cash_flows %}
             <div class="financial-data">
                 <p>Date: {{ cash_flow.date }} - Amount: {{ cash_flow.amount }}</p>

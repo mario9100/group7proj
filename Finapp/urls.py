@@ -20,5 +20,7 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('questionnaire/', questionnaire_view, name='questionnaire'),
+    path('import_income/', views.import_income, name='import_income'),
+    path('import_expense/', views.import_expense, name='import_expense'),
     # Add more URL patterns as needed.
 ]
