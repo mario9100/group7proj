@@ -14,8 +14,9 @@ User Profile
                     <img src="{{ user.userprofile.profile_picture.url }}" alt="Profile Picture" class="profile-picture">
                 {% endif %}
 
-                <p class="card-text">Hello, {{ user.username }}!</p>
-                <p class="card-text">Email: {{ user.email }}</p>
+                <p class="card-text">Hello {{ user_profile.full_name }} ({{ user.username }})</p>
+                <p class="card-text">{{ user.email }}</p>
+                <p class="card-text">{{ user_profile.bio }}</p>
                 <!-- Include additional user information as needed -->
                 <div class="container">
                     <a href="{% url 'Finapp:edit_profile' %}" class="btn btn-secondary mt-4">Edit Profile</a>
