@@ -26,5 +26,6 @@ urlpatterns = [
     path('delete_liability/<int:liability_id>/', delete_liability, name='delete_liability'),
     path('delete_income/<int:income_id>/', delete_income, name='delete_income'),
     path('delete_expense/<int:expense_id>/', delete_expense, name='delete_expense'),
+    path('financial_news/', views.financial_news_view, name='financial_news'),
     # Add more URL patterns as needed.
 ]

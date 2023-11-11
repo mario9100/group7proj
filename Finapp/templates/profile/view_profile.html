@@ -6,16 +6,30 @@ User Profile
 
 {% block content %}
     <div class="container">
-        <h1 class="mt-5">Welcome to Your Profile</h1>
+        <h1 class="mt-5">Welcome to Finapp</h1>
         <div class="card mt-4">
             <div class="card-body">
+                <!-- Display Profile Picture -->
+                {% if user.userprofile.profile_picture %}
+                    <img src="{{ user.userprofile.profile_picture.url }}" alt="Profile Picture" class="profile-picture">
+                {% endif %}
+
                 <p class="card-text">Hello, {{ user.username }}!</p>
                 <p class="card-text">Email: {{ user.email }}</p>
                 <!-- Include additional user information as needed -->
-                    <div class="container">
-        <a href="{% url 'Finapp:edit_profile' %}" class="btn btn-secondary mt-4">Edit Profile</a>
-    </div>
+                <div class="container">
+                    <a href="{% url 'Finapp:edit_profile' %}" class="btn btn-secondary mt-4">Edit Profile</a>
+                </div>
             </div>
         </div>
     </div>
+
+    <style>
+        .profile-picture {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+    </style>
 {% endblock %}

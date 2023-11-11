@@ -16,6 +16,8 @@ from django.views.decorators.http import require_POST
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.db.models import Sum
+from django.conf import settings
+import requests
 
 def success(request):
     return render(request, 'Finapp/success.html')
@@ -121,7 +123,7 @@ def dashboard(request):
     }
     return render(request, 'Finapp/dashboard.html', context)
 
-@login_required
+
 @login_required
 def questionnaire_view(request):
     if request.method == 'POST':
@@ -217,3 +219,27 @@ def delete_expense(request, expense_id):
 @login_required
 def delete_cash_flow(request, cash_flow_id):
     return delete_object(request, cash_flow_id, Cash_flow, 'Finapp:dashboard')
+
+def fetch_financial_news():
+    url = "https://newsapi.org/v2/everything"
+    parameters = {
+        'q': 'finance',  # Search query for financial news
+        'sortBy': 'popularity',
+        'apiKey': 'bb347b53fbad474fb85a6523ca7cc3a2',  # Ensure this is correctly set in your settings.py
+        'language': 'en',
+    }
+    try:
+        response = requests.get(url, params=parameters)
+        response.raise_for_status()  # This will raise an HTTPError if the HTTP request returned an unsuccessful status code
+        return response.json()['articles']  # Return the articles part of the response
+    except requests.exceptions.RequestException as e:
+        # Log error here
+        print(f"Request failed: {e}")
+        return None
+
+def financial_news_view(request):
+    financial_news = fetch_financial_news()
+    if financial_news:
+        return render(request, 'Finapp/financial_news.html', {'financial_news': financial_news})
+    else:
+        return render(request, 'Finapp/financial_news.html', {'error': 'Unable to fetch financial news'})

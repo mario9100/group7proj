@@ -1,0 +1,21 @@
+<!-- templates/Finapp/financial_news.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Financial News</h1>
+    <div class="financial-news">
+        {% if financial_news %}
+            <ul>
+                {% for article in financial_news %}
+                    <li>
+                        <a href="{{ article.url }}" target="_blank">{{ article.title }}</a>
+                        <p>{{ article.description }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Unable to load financial news at this time.</p>
+        {% endif %}
+    </div>
+{% endblock %}

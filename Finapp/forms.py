@@ -1,15 +1,8 @@
 from django import forms
-from .models import CashFlow, Asset, Liability
+from .models import Asset, Liability, UserProfile, Income, Expense
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import UserProfile
 from .models import Questionnaire
-from .models import Income, Expense
-
-class CashFlowForm(forms.ModelForm):
-    class Meta:
-        model = CashFlow
-        fields = ['date', 'amount']
 
 
 class AssetForm(forms.ModelForm):
