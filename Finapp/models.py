@@ -51,8 +51,8 @@ class RiskProfile(models.Model):
 
 class Questionnaire(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    investment_experience = models.IntegerField()  # For example, number of years
-    risk_tolerance = models.CharField(max_length=10)  # For example: low, medium, high
+    investment_experience = models.IntegerField()
+    risk_tolerance = models.CharField(max_length=10)
     risk_profile = models.ForeignKey(RiskProfile, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):

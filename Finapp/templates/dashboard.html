@@ -1,5 +1,3 @@
-<!-- templates/Finapp/dashboard.html -->
-
 {% extends 'base.html' %}
 
 {% block content %}
@@ -14,7 +12,6 @@
     <div class="financial-summary">
         <h2>Your Financial Summary</h2>
 
-        <!-- Assets Section -->
         <h3>Assets</h3>
         {% for asset in assets %}
             <div class="financial-data" style="display: flex; justify-content: space-between; align-items: center;">
@@ -25,7 +22,6 @@
             <p>No assets available.</p>
         {% endfor %}
 
-        <!-- Liabilities Section -->
         <h3>Liabilities</h3>
         {% for liability in liabilities %}
             <div class="financial-data" style="display: flex; justify-content: space-between; align-items: center;">
@@ -36,7 +32,6 @@
             <p>No liabilities available.</p>
         {% endfor %}
 
-        <!-- Incomes Section -->
         <h3>Monthly Net Income</h3>
         {% for income in incomes %}
             <div class="financial-data" style="display: flex; justify-content: space-between; align-items: center;">
@@ -47,7 +42,6 @@
             <p>No income data available.</p>
         {% endfor %}
 
-        <!-- Expenses Section -->
         <h3>Monthly Expenses</h3>
         {% for expense in expenses %}
             <div class="financial-data" style="display: flex; justify-content: space-between; align-items: center;">
@@ -58,7 +52,6 @@
             <p>No expense data available.</p>
         {% endfor %}
 
-        <!-- Net Cash Flows Section -->
         <h2>Your Monthly Net Cash Flows</h2>
         <div class="financial-data">
             <p>${{ net_cash_flows }}</p>

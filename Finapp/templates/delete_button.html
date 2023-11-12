@@ -1,4 +1,3 @@
-<!-- templates/_delete_button.html -->
 <form action="{% url delete_url object.id %}" method="post" style="display: inline;">
     {% csrf_token %}
     <input type="submit" value="Delete" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this item?');">

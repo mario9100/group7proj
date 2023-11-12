@@ -5,7 +5,7 @@
 <h2>Import Expenses</h2>
 <form method="post">
     {% csrf_token %}
-    {{ form.name.label_tag }} {{ form.name }}  <!-- Render the name field -->
+    {{ form.name.label_tag }} {{ form.name }}
     {{ form.amount.label_tag }} {{ form.amount}}
     {{ form.expense_type.label_tag }} {{ form.expense_type }}
     {% if form.errors %}

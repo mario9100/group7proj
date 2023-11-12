@@ -31,7 +31,7 @@ class UserProfileForm(forms.ModelForm):
 
 
 class QuestionnaireForm(forms.Form):
-    # Experience dropdown
+
     EXPERIENCE_CHOICES = [
         ('<1', 'Less than 1 year'),
         ('1-2', '1-2 years'),
@@ -41,7 +41,6 @@ class QuestionnaireForm(forms.Form):
     ]
     experience = forms.ChoiceField(choices=EXPERIENCE_CHOICES, label="Investment Experience")
 
-    # Risk tolerance questions
     RISK_TOLERANCE_CHOICES = [
         (1, 'Strongly Disagree'),
         (2, 'Disagree'),
@@ -58,15 +57,12 @@ class QuestionnaireForm(forms.Form):
                                    label="I am willing to take on high risk for the chance of high returns.",
                                    widget=forms.RadioSelect)
 
-    # Add more questions as needed...
 
     def clean(self):
         cleaned_data = super().clean()
-        # Convert each value to int before summing
+
         total_score = sum([int(cleaned_data.get(f"question_{i + 1}", 0)) for i in range(3)])
-        # Rest of your code...
-        # Adjust the range for the number of questions
-        # Determine risk profile based on the total score
+
         if total_score <= 6:
             risk_profile = 'Conservative'
         elif 7 <= total_score <= 9:
@@ -74,25 +70,25 @@ class QuestionnaireForm(forms.Form):
         else:
             risk_profile = 'Aggressive'
 
-        # You can then use this to save the profile to the user or simply pass it to the context
+
         self.cleaned_data['risk_profile'] = risk_profile
 
 class IncomeForm(forms.ModelForm):
     class Meta:
         model = Income
-        fields = ['name', 'net_income']  # Adjust the fields as per your Income model
+        fields = ['name', 'net_income']
 
 
 class ExpenseForm(forms.ModelForm):
-    # Define the choices for expense type
+
     EXPENSE_TYPE_CHOICES = [
         ('Living', 'Living Expense'),
         ('Discretionary', 'Discretionary Expense'),
     ]
 
-    # Add an extra field for the expense type with the choices
+
     expense_type = forms.ChoiceField(choices=EXPENSE_TYPE_CHOICES, label="Type of Expense")
 
     class Meta:
         model = Expense
-        fields = ['name', 'amount', 'expense_type']  # Include other fields if needed
+        fields = ['name', 'amount', 'expense_type']

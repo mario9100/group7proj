@@ -114,28 +114,21 @@ def questionnaire_view(request):
     if request.method == 'POST':
         form = QuestionnaireForm(request.POST)
         if form.is_valid():
-            # The risk profile is calculated and added to cleaned_data in the form's clean method
             risk_profile = form.cleaned_data['risk_profile']
 
-            # Save the risk profile to the user's profile
             user_profile = request.user.userprofile
             user_profile.risk_profile = risk_profile
             user_profile.save()
 
-            # Redirect to the dashboard where the user can see their risk profile
             return redirect('Finapp:dashboard')
         else:
-            # If the form is not valid, you might want to return the form with errors
             return render(request, 'questionnaire.html', {'form': form})
     else:
         form = QuestionnaireForm()
-
-    # If GET request, just display the empty form
     return render(request, 'questionnaire.html', {'form': form})
 
 
 def determine_risk_profile(data):
-    # Example logic for determining risk profile
     experience = data['experience']
     tolerance = data['risk_tolerance']
     if experience > 5 and tolerance == 'high':
@@ -165,13 +158,12 @@ def import_expense(request):
     if request.method == 'POST':
         form = ExpenseForm(request.POST)
         if form.is_valid():
-            # Save the expense with the user and type
             expense = form.save(commit=False)
             expense.user = request.user
             expense.expense_type = form.cleaned_data['expense_type']
             expense.save()
             # Redirect to a new URL:
-            return redirect('Finapp:dashboard')  # Update with your actual redirect destination
+            return redirect('Finapp:dashboard')
 
     else:
         form = ExpenseForm()
@@ -184,7 +176,6 @@ def delete_object(request, object_id, model, redirect_url):
     obj.delete()
     return redirect(redirect_url)
 
-# Now, your specific delete views can call this generic function:
 @login_required
 def delete_asset(request, asset_id):
     return delete_object(request, asset_id, Asset, 'Finapp:dashboard')
@@ -204,17 +195,17 @@ def delete_expense(request, expense_id):
 def fetch_financial_news():
     url = "https://newsapi.org/v2/everything"
     parameters = {
-        'q': 'finance',  # Search query for financial news
+        'q': 'finance',
         'sortBy': 'popularity',
-        'apiKey': 'bb347b53fbad474fb85a6523ca7cc3a2',  # Ensure this is correctly set in your settings.py
+        'apiKey': 'bb347b53fbad474fb85a6523ca7cc3a2',
         'language': 'en',
     }
     try:
         response = requests.get(url, params=parameters)
-        response.raise_for_status()  # This will raise an HTTPError if the HTTP request returned an unsuccessful status code
-        return response.json()['articles']  # Return the articles part of the response
+        response.raise_for_status()
+        return response.json()['articles']
     except requests.exceptions.RequestException as e:
-        # Log error here
+
         print(f"Request failed: {e}")
         return None
 

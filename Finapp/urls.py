@@ -6,7 +6,6 @@ from .views import questionnaire_view, delete_asset, delete_liability, delete_in
 app_name = 'Finapp'
 
 urlpatterns = [
-    # Define URL patterns and associate them with view functions.
     path('import_asset/', views.import_asset, name='import_asset'),
     path('import_liability/', views.import_liability, name='import_liability'),
     path('success/', views.success, name='success'),
@@ -15,7 +14,7 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('edit_profile/', views.edit_profile, name='edit_profile'),
     path('profile/', views.view_profile, name='view_profile'),
-    path('profile/edit/', views.edit_profile, name='edit_profile_alt'),  # Updated name
+    path('profile/edit/', views.edit_profile, name='edit_profile_alt'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('questionnaire/', questionnaire_view, name='questionnaire'),
@@ -26,5 +25,4 @@ urlpatterns = [
     path('delete_income/<int:income_id>/', delete_income, name='delete_income'),
     path('delete_expense/<int:expense_id>/', delete_expense, name='delete_expense'),
     path('financial_news/', views.financial_news_view, name='financial_news'),
-    # Add more URL patterns as needed.
 ]
