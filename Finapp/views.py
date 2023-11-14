@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Sum
 import requests
+from decouple import config
 
 def success(request):
     return render(request, 'success.html')
@@ -15,8 +16,8 @@ def import_asset(request):
         form = AssetForm(request.POST)
         if form.is_valid():
             asset = form.save(commit=False)
-            asset.user = request.user  # Set the user field
-            asset.save()  # Now save the asset
+            asset.user = request.user
+            asset.save()
             messages.success(request, 'Asset imported successfully!')
             return redirect('Finapp:dashboard')
 
@@ -31,8 +32,8 @@ def import_liability(request):
         form = LiabilityForm(request.POST)
         if form.is_valid():
             liability = form.save(commit=False)
-            liability.user = request.user  # Set the user field
-            liability.save()  # Now save the liability
+            liability.user = request.user
+            liability.save()
             messages.success(request, 'Liability imported successfully!')
             return redirect('Finapp:dashboard')
 
@@ -46,8 +47,7 @@ def registration_view(request):
         form = RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-            # Redirect to a success page or login page
-            return redirect('Finapp:login')  # Assuming you have a 'login' URL pattern
+            return redirect('Finapp:login')
     else:
         form = RegistrationForm()
 
@@ -55,7 +55,6 @@ def registration_view(request):
 
 @login_required
 def view_profile(request):
-    # Retrieve the user's profile (assuming you have a one-to-one relationship with User)
     try:
         user_profile = UserProfile.objects.get(user=request.user)
     except UserProfile.DoesNotExist:
@@ -66,7 +65,6 @@ def view_profile(request):
 
 @login_required
 def edit_profile(request):
-    # Retrieve the user's profile (assuming you have a one-to-one relationship with User)
     user_profile = UserProfile.objects.get(user=request.user)
 
     if request.method == 'POST':
@@ -197,7 +195,7 @@ def fetch_financial_news():
     parameters = {
         'q': 'finance',
         'sortBy': 'popularity',
-        'apiKey': 'bb347b53fbad474fb85a6523ca7cc3a2',
+        'apiKey': config('NEWS_API_KEY'),
         'language': 'en',
     }
     try:

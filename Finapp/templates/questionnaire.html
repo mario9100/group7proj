@@ -1,5 +1,3 @@
-<!-- templates/questionnaire.html -->
-
 {% extends 'base.html' %}
 
 {% block content %}
@@ -28,7 +26,6 @@
                 <label>{{ choice.tag }} {{ choice.choice_label }}</label><br>
             {% endfor %}
         </div>
-        <!-- Repeat for other questions -->
         <button type="submit">Submit</button>
     </form>
 {% endblock %}

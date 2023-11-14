@@ -2,8 +2,6 @@ from django import forms
 from .models import Asset, Liability, UserProfile, Income, Expense
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Questionnaire
-
 
 class AssetForm(forms.ModelForm):
     class Meta:
@@ -18,7 +16,6 @@ class LiabilityForm(forms.ModelForm):
 
 
 class RegistrationForm(UserCreationForm):
-    # Add any additional fields or customization here
     class Meta:
         model = User
         fields = ('username', 'password1', 'password2')

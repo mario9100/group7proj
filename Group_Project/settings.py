@@ -73,7 +73,9 @@ LOGIN_URL = 'Finapp:login'
 LOGOUT_URL = 'Finapp:logout'
 LOGIN_REDIRECT_URL = 'Finapp:dashboard'
 LOGOUT_REDIRECT_URL = 'Finapp:login'
-
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
 
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -121,10 +123,8 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
-    # ...
-]
+NEWS_API_KEY = os.getenv('NEWS_API_KEY')
+
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
